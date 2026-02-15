@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p>{{ description }}</p>
+
+    <h3>Меню:</h3>
+    <a href="{% url 'products' %}">Товари</a><br>
+    <a href="{% url 'delivery' %}">Доставка</a>
+</body>
+</html>
