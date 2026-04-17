@@ -10,5 +10,19 @@
     <h3>Меню:</h3>
     <a href="{% url 'products' %}">Товари</a><br>
     <a href="{% url 'delivery' %}">Доставка</a>
-</body>
+
+    <hr>
+    <h2>Наші товари:</h2>
+    <ul>
+        {% for product in products %}
+            <li>
+                <strong>{{ product.name }}</strong> — {{ product.price }} грн.
+                <br>
+                <small>Категорія: {{ product.category.name }}</small>
+            </li>
+        {% empty %}
+            <li>На жаль, товарів поки що немає.</li>
+        {% endfor %}
+    </ul>
+    </body>
 </html>

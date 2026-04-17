@@ -9,5 +9,19 @@
 
     <br>
     <a href="{% url 'home' %}">На головну</a>
+   <hr>
+<h3>Актуальні пропозиції:</h3>
+
+<ul>
+    {% for product in products %}
+        <li>
+            <strong>{{ product.name }}</strong> — {{ product.price }} грн.
+            <br>
+            <i>Категорія: {{ product.category.name }}</i>
+        </li>
+    {% empty %}
+        <li>На даний момент товарів немає в наявності.</li>
+    {% endfor %}
+</ul>
 </body>
 </html>
