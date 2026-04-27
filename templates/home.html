@@ -1,28 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ title }}</title>
-</head>
-<body>
-    <h1>{{ title }}</h1>
-    <p>{{ description }}</p>
+{% extends 'base.html' %}
 
-    <h3>Меню:</h3>
-    <a href="{% url 'products' %}">Товари</a><br>
-    <a href="{% url 'delivery' %}">Доставка</a>
+{% block content %}
+    <h1 style="text-align: center; margin-bottom: 10px; font-size: 36px;">{{ title }}</h1>
+    <p style="text-align: center; color: #666; margin-bottom: 50px; font-size: 18px;">{{ description }}</p>
 
-    <hr>
-    <h2>Наші товари:</h2>
-    <ul>
+    <div class="product-grid">
         {% for product in products %}
-            <li>
-                <strong>{{ product.name }}</strong> — {{ product.price }} грн.
-                <br>
-                <small>Категорія: {{ product.category.name }}</small>
-            </li>
+            <div class="product-card">
+                <a href="{% url 'product_detail' product.pk %}">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <div style="height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 15px; color: #999;">Фото відсутнє</div>
+                    {% endif %}
+                </a>
+
+                <h3>
+                    <a href="{% url 'product_detail' product.pk %}" style="text-decoration: none; color: #1a1a1a; transition: 0.3s;">
+                        {{ product.name }}
+                    </a>
+                </h3>
+
+                <p class="price">{{ product.price }} грн</p>
+
+                <button class="btn-buy">Купити</button>
+            </div>
         {% empty %}
-            <li>На жаль, товарів поки що немає.</li>
+            <p style="text-align: center; width: 100%; font-size: 20px; color: #888; margin-top: 50px;">
+                На жаль, у розділі "{{ title }}" поки що немає доступних товарів.
+            </p>
         {% endfor %}
-    </ul>
-    </body>
-</html>
+    </div>
+
+    <div style="text-align: center; margin-top: 60px;">
+        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 30px;">
+        <a href="{% url 'home' %}" style="text-decoration: none; color: #ff4500; font-weight: bold; font-size: 18px; border: 2px solid #ff4500; padding: 12px 25px; border-radius: 8px; transition: 0.3s;">
+             Повернутися до всіх товарів
+        </a>
+    </div>
+{% endblock %}
