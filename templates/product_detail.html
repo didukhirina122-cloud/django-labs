@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; gap: 50px; margin-top: 40px; align-items: start;">
+    <div style="flex: 1;">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+        {% else %}
+            <div style="height: 400px; background: #eee; display: flex; align-items: center; justify-content: center; border-radius: 15px;">Фото відсутнє</div>
+        {% endif %}
+    </div>
+
+    <div style="flex: 1;">
+        <h1 style="font-size: 42px; margin-bottom: 10px;">{{ product.name }}</h1>
+        <p style="color: #ff4500; font-size: 32px; font-weight: 800; margin-bottom: 30px;">{{ product.price }} грн</p>
+
+        <div style="background: white; padding: 30px; border-radius: 12px; border: 1px solid #eee;">
+            <h3 style="margin-top: 0;">Характеристики та опис:</h3>
+            <p style="font-size: 18px; color: #555;">Тут буде детальний опис товару {{ product.name }}, який ти зможеш додати через адмін-панель.</p>
+            <button class="btn-buy" style="margin-top: 20px; font-size: 20px; padding: 20px;">Додати у кошик</button>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="{% url 'home' %}" style="color: #666; text-decoration: none;">← Назад до каталогу Apex Sport</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
