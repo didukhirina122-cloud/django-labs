@@ -1,4 +1,6 @@
-/* Основні налаштування */
+/* =========================================
+   Основні налаштування
+   ========================================= */
 body {
     font-family: 'Segoe UI', Roboto, sans-serif;
     margin: 0;
@@ -18,7 +20,7 @@ header {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between; /* Розкидає елементи по боках */
+    justify-content: space-between;
     align-items: center;
     padding: 0 20px;
 }
@@ -68,29 +70,44 @@ nav a:hover {
     cursor: pointer;
 }
 
-/* Контент */
+/* =========================================
+   Контент та Сітка товарів
+   ========================================= */
 .container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
+.page-title {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 36px;
+}
+
+.page-description {
+    text-align: center;
+    color: #666;
+    margin-bottom: 50px;
+    font-size: 18px;
+}
+
 .product-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
-    justify-content: center;
 }
 
 .product-card {
     background: white;
     border: 1px solid #eee;
     padding: 20px;
-    width: 280px;
     border-radius: 12px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     transition: 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-card:hover {
@@ -104,6 +121,36 @@ nav a:hover {
     object-fit: contain;
     border-radius: 8px;
     margin-bottom: 15px;
+}
+
+/* Заглушка, якщо немає фото */
+.no-image-placeholder-grid {
+    height: 200px;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    color: #999;
+}
+
+/* Назва товару в картці */
+.product-card-title {
+    font-size: 18px;
+    margin: 10px 0;
+    flex: 1;
+}
+
+.product-card-title a {
+    text-decoration: none;
+    color: #1a1a1a;
+    transition: 0.3s;
+    word-break: break-word;
+}
+
+.product-card-title a:hover {
+    color: #ff4500;
 }
 
 .price {
@@ -122,9 +169,25 @@ nav a:hover {
     border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Футер */
+.btn-buy:hover {
+    background: #e63e00;
+}
+
+/* Повідомлення про порожню категорію */
+.empty-section-message {
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    color: #888;
+    margin-top: 50px;
+}
+
+/* =========================================
+   Футер
+   ========================================= */
 footer {
     background: #1a1a1a;
     color: #aaa;
@@ -143,49 +206,24 @@ footer {
     color: white;
     margin-bottom: 15px;
 }
-/* Налаштування для випадаючого меню */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
 
-/* Приховуємо список за замовчуванням */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #1a1a1a; /* Темний фон під колір хедера */
-    min-width: 200px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
-    z-index: 1;
-    border-top: 2px solid #ff4500;
-    text-align: left;
-    margin-top: 5px;
-    border-radius: 0 0 8px 8px;
-}
-
-/* Стилі для посилань всередині списку */
-.dropdown-content a {
-    color: white;
-    padding: 12px 16px;
+.footer-btn {
+    display: block;
+    color: #aaa;
     text-decoration: none;
-    display: block;
-    font-size: 16px;
-    text-transform: none; /* Категорії не обов'язково писати капсом */
-    margin: 0; /* Прибираємо відступи, які ми ставили для головного меню */
+    margin-bottom: 10px;
+    transition: 0.3s;
 }
 
-/* Колір при наведенні на пункт списку */
-.dropdown-content a:hover {
-    background-color: #333;
-    color: #ff4500;
+.footer-btn:hover {
+    color: white;
+    padding-left: 5px;
 }
 
-/* ПОКАЗУЄМО список при наведенні мишкою */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* Трохи підсвітимо головну кнопку, коли меню відкрите */
-.dropdown:hover .dropbtn {
-    color: #ff4500;
+.footer-bottom-text {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.8em;
+    border-top: 1px solid #333;
+    padding-top: 20px;
 }

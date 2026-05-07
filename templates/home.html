@@ -1,41 +1,421 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1 style="text-align: center; margin-bottom: 10px; font-size: 36px;">{{ title }}</h1>
-    <p style="text-align: center; color: #666; margin-bottom: 50px; font-size: 18px;">{{ description }}</p>
 
-    <div class="product-grid">
-        {% for product in products %}
-            <div class="product-card">
-                <a href="{% url 'product_detail' product.pk %}">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    {% else %}
-                        <div style="height: 200px; background: #eee; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 15px; color: #999;">Фото відсутнє</div>
-                    {% endif %}
-                </a>
+<!-- HERO -->
+<section class="hs-hero">
+    <div class="hs-hero-content">
+        <span class="hs-hero-badge">Новий сезон 2026</span>
+        <h1 class="hs-hero-title">Крокуй<br><span class="hs-orange">впевнено.</span></h1>
+        <p class="hs-hero-sub">Найкращі кросівки світових брендів — Nike, Adidas, Puma, Under Armour та інші. Доставка по всій Україні.</p>
+        <div class="hs-hero-btns">
+            <a href="{% url 'products' %}" class="hs-btn-primary">Всі товари</a>
+            <a href="{% url 'delivery' %}" class="hs-btn-secondary">Доставка</a>
+        </div>
+    </div>
+    <div class="hs-hero-stats">
+        <div class="hs-stat">
+            <div class="hs-stat-num">500+</div>
+            <div class="hs-stat-label">Моделей</div>
+        </div>
+        <div class="hs-stat-divider"></div>
+        <div class="hs-stat">
+            <div class="hs-stat-num">10+</div>
+            <div class="hs-stat-label">Брендів</div>
+        </div>
+        <div class="hs-stat-divider"></div>
+        <div class="hs-stat">
+            <div class="hs-stat-num">1-2</div>
+            <div class="hs-stat-label">Дні доставки</div>
+        </div>
+    </div>
+</section>
 
-                <h3>
-                    <a href="{% url 'product_detail' product.pk %}" style="text-decoration: none; color: #1a1a1a; transition: 0.3s;">
-                        {{ product.name }}
-                    </a>
-                </h3>
-
-                <p class="price">{{ product.price }} грн</p>
-
-                <button class="btn-buy">Купити</button>
-            </div>
-        {% empty %}
-            <p style="text-align: center; width: 100%; font-size: 20px; color: #888; margin-top: 50px;">
-                На жаль, у розділі "{{ title }}" поки що немає доступних товарів.
-            </p>
+<!-- БРЕНДИ (динамічно з бази) -->
+{% if categories %}
+<section class="hs-section">
+    <div class="hs-section-header">
+        <h2 class="hs-section-title">Популярні бренди</h2>
+        <a href="{% url 'products' %}" class="hs-link">Всі категорії →</a>
+    </div>
+    <div class="hs-brands">
+        {% for cat in categories %}
+        <a href="{% url 'category_detail' cat.id %}" class="hs-brand-card">
+            <div class="hs-brand-logo">{{ cat.name|upper }}</div>
+            <div class="hs-brand-name">{{ cat.name }}</div>
+        </a>
         {% endfor %}
     </div>
+</section>
+{% endif %}
 
-    <div style="text-align: center; margin-top: 60px;">
-        <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 30px;">
-        <a href="{% url 'home' %}" style="text-decoration: none; color: #ff4500; font-weight: bold; font-size: 18px; border: 2px solid #ff4500; padding: 12px 25px; border-radius: 8px; transition: 0.3s;">
-             Повернутися до всіх товарів
-        </a>
+<!-- НАЙКРАЩА ПРОПОЗИЦІЯ -->
+{% if cheapest %}
+<section class="hs-section">
+    <div class="hs-deal">
+        <div class="hs-deal-left">
+            <span class="hs-deal-tag">🔥 Топ пропозиція</span>
+            <h2 class="hs-deal-title">{{ cheapest.name }}</h2>
+            <p class="hs-deal-desc">Найнижча ціна у нашому магазині — встигни купити!</p>
+            <div class="hs-deal-price">{{ cheapest.price }} грн</div>
+            <a href="{% url 'product_detail' cheapest.pk %}" class="hs-btn-primary">Купити зараз</a>
+        </div>
+        <div class="hs-deal-right">
+            {% if cheapest.image %}
+                <img src="{{ cheapest.image.url }}" alt="{{ cheapest.name }}" class="hs-deal-img">
+            {% else %}
+                <div class="hs-deal-no-img">👟</div>
+            {% endif %}
+        </div>
     </div>
+</section>
+{% endif %}
+
+<!-- ВІДГУКИ -->
+<section class="hs-section">
+    <div class="hs-section-header">
+        <h2 class="hs-section-title">Що кажуть покупці</h2>
+        <div class="hs-rating-summary">⭐ 4.9 з 5 на основі 200+ відгуків</div>
+    </div>
+    <div class="hs-reviews">
+        <div class="hs-review-card">
+            <div class="hs-review-top">
+                <div class="hs-avatar" style="background:#ff4500;">АМ</div>
+                <div>
+                    <div class="hs-reviewer-name">Аліна М.</div>
+                    <div class="hs-stars">★★★★★</div>
+                </div>
+            </div>
+            <p class="hs-review-text">Замовила Nike Air Max — прийшли за день! Якість супер, точно відповідають розміру. Буду замовляти ще 🔥</p>
+            <div class="hs-review-product">Nike Air Max</div>
+        </div>
+        <div class="hs-review-card">
+            <div class="hs-review-top">
+                <div class="hs-avatar" style="background:#1a1a1a;">ДК</div>
+                <div>
+                    <div class="hs-reviewer-name">Дмитро К.</div>
+                    <div class="hs-stars">★★★★★</div>
+                </div>
+            </div>
+            <p class="hs-review-text">Брав Adidas для тренувань — дуже зручні, нога не втомлюється. Магазин надійний, все як на фото.</p>
+            <div class="hs-review-product">Adidas Training</div>
+        </div>
+        <div class="hs-review-card">
+            <div class="hs-review-top">
+                <div class="hs-avatar" style="background:#e63e00;">ОП</div>
+                <div>
+                    <div class="hs-reviewer-name">Оксана П.</div>
+                    <div class="hs-stars">★★★★★</div>
+                </div>
+            </div>
+            <p class="hs-review-text">Купила дочці Puma — вона в захваті! Швидка доставка, гарна упаковка. Дякую Apex Sport!</p>
+            <div class="hs-review-product">Puma Flyer Lite</div>
+        </div>
+        <div class="hs-review-card">
+            <div class="hs-review-top">
+                <div class="hs-avatar" style="background:#333;">ВС</div>
+                <div>
+                    <div class="hs-reviewer-name">Василь С.</div>
+                    <div class="hs-stars">★★★★☆</div>
+                </div>
+            </div>
+            <p class="hs-review-text">Under Armour Charged — відмінні для бігу. Трохи чекав на відправку, але загалом дуже задоволений.</p>
+            <div class="hs-review-product">Under Armour Charged</div>
+        </div>
+    </div>
+</section>
+
+<style>
+.hs-hero {
+    background: #1a1a1a;
+    border-radius: 20px;
+    padding: 60px 50px 40px;
+    margin-bottom: 50px;
+    position: relative;
+    overflow: hidden;
+}
+.hs-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff4500, #ff8c00);
+}
+.hs-hero::after {
+    content: '👟';
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-20deg);
+    font-size: 160px;
+    opacity: 0.07;
+}
+.hs-hero-badge {
+    display: inline-block;
+    background: #ff4500;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+.hs-hero-title {
+    color: white;
+    font-size: 54px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0 0 20px;
+}
+.hs-orange { color: #ff4500; }
+.hs-hero-sub {
+    color: #888;
+    font-size: 16px;
+    max-width: 520px;
+    line-height: 1.6;
+    margin: 0 0 30px;
+}
+.hs-hero-btns {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 40px;
+}
+.hs-btn-primary {
+    display: inline-block;
+    background: #ff4500;
+    color: white;
+    padding: 13px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.3s;
+}
+.hs-btn-primary:hover { background: #e63e00; }
+.hs-btn-secondary {
+    display: inline-block;
+    background: transparent;
+    color: white;
+    padding: 13px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    border: 1px solid #444;
+    transition: 0.3s;
+}
+.hs-btn-secondary:hover { border-color: #ff4500; color: #ff4500; }
+.hs-hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    border-top: 1px solid #2a2a2a;
+    padding-top: 30px;
+}
+.hs-stat-num {
+    color: white;
+    font-size: 28px;
+    font-weight: 900;
+}
+.hs-stat-label {
+    color: #666;
+    font-size: 13px;
+    margin-top: 2px;
+}
+.hs-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: #2a2a2a;
+}
+.hs-section { margin-bottom: 60px; }
+.hs-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.hs-section-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+}
+.hs-link {
+    color: #ff4500;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+.hs-link:hover { text-decoration: underline; }
+.hs-brands {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+}
+.hs-brand-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 24px 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.3s;
+    display: block;
+}
+.hs-brand-card:hover {
+    border-color: #ff4500;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255,69,0,0.1);
+}
+.hs-brand-card:hover .hs-brand-logo {
+    color: #ff4500;
+}
+.hs-brand-logo {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #111;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+.hs-brand-name {
+    font-size: 12px;
+    color: #888;
+    font-weight: 600;
+}
+.hs-deal {
+    background: #1a1a1a;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+}
+.hs-deal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff4500, #ff8c00);
+}
+.hs-deal-left { flex: 1; }
+.hs-deal-tag {
+    display: inline-block;
+    background: rgba(255,69,0,0.15);
+    color: #ff4500;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+.hs-deal-title {
+    color: white;
+    font-size: 26px;
+    font-weight: 800;
+    margin: 0 0 10px;
+}
+.hs-deal-desc {
+    color: #888;
+    font-size: 15px;
+    margin: 0 0 20px;
+}
+.hs-deal-price {
+    color: #ff4500;
+    font-size: 40px;
+    font-weight: 900;
+    margin-bottom: 24px;
+}
+.hs-deal-right {
+    flex-shrink: 0;
+    width: 280px;
+    height: 240px;
+    background: #242424;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.hs-deal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.hs-deal-no-img { font-size: 80px; }
+.hs-rating-summary {
+    font-size: 14px;
+    color: #888;
+    font-weight: 600;
+}
+.hs-reviews {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+.hs-review-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: 0.3s;
+}
+.hs-review-card:hover {
+    border-color: #ff4500;
+    box-shadow: 0 8px 20px rgba(255,69,0,0.08);
+}
+.hs-review-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.hs-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+.hs-reviewer-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+.hs-stars {
+    color: #ff8c00;
+    font-size: 13px;
+    margin-top: 2px;
+}
+.hs-review-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+    flex: 1;
+}
+.hs-review-product {
+    font-size: 12px;
+    color: #ff4500;
+    font-weight: 600;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+}
+</style>
+
 {% endblock %}

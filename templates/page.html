@@ -1,27 +1,245 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ title }}</title>
-</head>
-<body>
-    <h1>{{ title }}</h1>
-    <p>{{ description }}</p>
+{% extends 'base.html' %}
 
-    <br>
-    <a href="{% url 'home' %}">На головну</a>
-   <hr>
-<h3>Актуальні пропозиції:</h3>
+{% block content %}
 
-<ul>
-    {% for product in products %}
-        <li>
-            <strong>{{ product.name }}</strong> — {{ product.price }} грн.
-            <br>
-            <i>Категорія: {{ product.category.name }}</i>
-        </li>
-    {% empty %}
-        <li>На даний момент товарів немає в наявності.</li>
-    {% endfor %}
-</ul>
-</body>
-</html>
+<section class="del-hero">
+    <div>
+        <span class="del-badge">Доставка та оплата</span>
+        <h1 class="del-title">Швидко і надійно<br><span style="color:#ff4500;">по всій Україні</span></h1>
+        <p class="del-sub">Відправляємо замовлення протягом 1-2 робочих днів через Нову Пошту та Укрпошту</p>
+    </div>
+</section>
+
+<div class="del-grid">
+
+    <div class="del-card">
+        <h2 class="del-card-title">Нова Пошта</h2>
+        <p class="del-card-desc">Найшвидша доставка по Україні</p>
+        <ul class="del-list">
+            <li>Доставка 1-2 дні</li>
+            <li>Відділення або адресна доставка</li>
+            <li>Відстеження посилки онлайн</li>
+            <li>Оплата при отриманні</li>
+        </ul>
+        <div class="del-price-tag">від 70 грн</div>
+    </div>
+
+    <div class="del-card">
+        <h2 class="del-card-title">Укрпошта</h2>
+        <p class="del-card-desc">Доступна доставка в будь-яке село</p>
+        <ul class="del-list">
+            <li>Доставка 3-5 днів</li>
+            <li>Доставка за індексом</li>
+            <li>Доступна в найвіддаленіших селах</li>
+            <li>Оплата при отриманні</li>
+        </ul>
+        <div class="del-price-tag">від 45 грн</div>
+    </div>
+
+</div>
+
+<div class="del-info-grid">
+    <div class="del-info-card">
+        <h3>Оплата</h3>
+        <p>Оплата при отриманні або карткою онлайн. Накладений платіж доступний для всіх служб доставки.</p>
+    </div>
+    <div class="del-info-card">
+        <h3>Повернення</h3>
+        <p>Протягом 14 днів з моменту отримання. Товар має бути у незношеному стані з оригінальною упаковкою.</p>
+    </div>
+    <div class="del-info-card">
+        <h3>Підтримка</h3>
+        <p>Зв'яжись з нами: <strong>+380 50 777 00 00</strong> або info@apexsport.ua</p>
+    </div>
+</div>
+
+<div class="del-newsletter">
+    <div class="del-newsletter-text">
+        <h2>Підпишись на розсилку</h2>
+        <p>Отримуй акції, новинки та знижки першим!</p>
+    </div>
+    <form action="{% url 'newsletter_subscribe' %}" method="POST" class="del-newsletter-form">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Ваше ім'я">
+        <input type="email" name="email" required placeholder="Ваш email">
+        <button type="submit">Підписатись</button>
+    </form>
+</div>
+
+<style>
+.del-hero {
+    background: #1a1a1a;
+    border-radius: 20px;
+    padding: 60px 50px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+.del-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ff4500, #ff8c00);
+}
+.del-badge {
+    display: inline-block;
+    background: #ff4500;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+}
+.del-title {
+    color: white;
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin: 0 0 16px;
+}
+.del-sub {
+    color: #888;
+    font-size: 16px;
+    max-width: 500px;
+    line-height: 1.6;
+    margin: 0;
+}
+.del-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.del-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    padding: 36px;
+    transition: 0.3s;
+}
+.del-card:hover {
+    border-color: #ff4500;
+    box-shadow: 0 12px 30px rgba(255,69,0,0.1);
+    transform: translateY(-3px);
+}
+.del-card-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 8px;
+}
+.del-card-desc {
+    color: #888;
+    font-size: 14px;
+    margin: 0 0 20px;
+}
+.del-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.del-list li {
+    font-size: 14px;
+    color: #555;
+    padding-left: 16px;
+    position: relative;
+}
+.del-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: #ff4500;
+}
+.del-price-tag {
+    display: inline-block;
+    background: #fff8f6;
+    color: #ff4500;
+    border: 1px solid #ff4500;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+}
+.del-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+.del-info-card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    padding: 28px 24px;
+}
+.del-info-card h3 {
+    font-size: 16px;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 0 10px;
+}
+.del-info-card p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+}
+.del-newsletter {
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 40px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 20px;
+    border-top: 4px solid #ff4500;
+}
+.del-newsletter-text h2 {
+    color: white;
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 8px;
+}
+.del-newsletter-text p {
+    color: #888;
+    font-size: 14px;
+    margin: 0;
+}
+.del-newsletter-form {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+.del-newsletter-form input {
+    padding: 11px 16px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #2a2a2a;
+    color: white;
+    font-size: 14px;
+    width: 180px;
+}
+.del-newsletter-form button {
+    background: #ff4500;
+    color: white;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+.del-newsletter-form button:hover { background: #e63e00; }
+</style>
+
+{% endblock %}

@@ -6,40 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Apex Sport{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block link %}{% endblock %}
 </head>
-<body>
+<body style="display: flex; flex-direction: column; min-height: 100vh; margin: 0;">
 
 <header>
     <div class="header-wrapper">
         <div class="logo">
-            <a href="{% url 'home' %}">Apex Sport </a>
+            <a href="{% url 'home' %}">Apex Sport</a>
         </div>
 
-       <nav>
-    <a href="{% url 'home' %}">Головна</a>
+        <nav>
+            <a href="{% url 'home' %}">Головна</a>
+            <a href="{% url 'products' %}">Бренди</a>
+            <a href="{% url 'delivery' %}">Доставка</a>
+        </nav>
 
-    <div class="dropdown">
-        <a href="{% url 'products' %}" class="dropbtn">Товари ▾</a>
-        <div class="dropdown-content">
-            {% for cat in categories %}
-                <a href="{% url 'category_detail' cat.id %}">{{ cat.name }}</a>
-            {% endfor %}
-        </div>
-    </div>
-    <a href="{% url 'delivery' %}">Доставка</a>
-    <a href="#">Про нас</a>
-</nav>
+        <div style="display:flex; align-items:center; gap:16px;">
+            <!-- Пошук -->
+            <div class="search-box">
+                <form action="{% url 'search' %}" method="get">
+                    <input type="text" name="q" placeholder="Пошук..." value="{{ request.GET.q }}">
+                    <button type="submit">🔍</button>
+                </form>
+            </div>
 
-        <div class="search-box">
-            <form action="#" method="get">
-                <input type="text" placeholder="Пошук...">
-                <button type="submit">🔍</button>
-            </form>
+            <!-- Кошик -->
+            <a href="{% url 'cart' %}" style="position:relative; color:white; text-decoration:none; font-size:22px;">
+                🛒
+                {% if cart_count %}
+                <span style="position:absolute; top:-8px; right:-8px; background:#ff4500; color:white; font-size:11px; font-weight:700; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center;">{{ cart_count }}</span>
+                {% endif %}
+            </a>
         </div>
     </div>
 </header>
 
-<div class="container">
+{% if messages %}
+<div style="max-width:1200px; margin:16px auto; padding:0 20px;">
+    {% for message in messages %}
+    <div style="background:{% if message.tags == 'success' %}#d4edda{% elif message.tags == 'error' %}#f8d7da{% else %}#cce5ff{% endif %}; color:#333; padding:12px 20px; border-radius:8px; margin-bottom:8px; font-size:14px;">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="container" style="flex: 1;">
     {% block content %}{% endblock %}
 </div>
 
@@ -49,15 +62,13 @@
             <h4>Про нас</h4>
             <p>Apex Sport — твоя енергія для нових перемог.</p>
         </div>
-        <div class="footer-section">
-            <h4>Клієнтам</h4>
-            <p>Доставка та оплата<br>Обмін та повернення</p>
-        </div>
+
         <div class="footer-section">
             <h4>Контакти</h4>
             <p>info@apexsport.ua<br>+380 50 777 00 00</p>
         </div>
     </div>
+
     <p style="text-align: center; margin-top: 40px; font-size: 0.8em; border-top: 1px solid #333; padding-top: 20px;">
         &copy; 2026 Apex Sport. Всі права захищені.
     </p>
